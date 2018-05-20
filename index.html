@@ -3,11 +3,21 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" href="styles/style.css">
 		<title></title>
 	</head>
 	<body>
-		body
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"> </script>
+		<div id="map">
+		</div>
+		<div>
+				
+			<ul data-bind="foreach:places">
+				<li data-bind="text:name"></li>		
+			</ul>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"> </script>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="scripts/app.js"> </script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzLjJ9dNYvfAmS1PNISYyrwTq1tQSgRs0&callback=getLocalCoffee" async defer> </script>
 	</body>
 </html>
