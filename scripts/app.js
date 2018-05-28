@@ -17,7 +17,7 @@ function getVenueData(venueID) {
 		return response['response']['venue']['contact']['addressArray'];
 	})
 }
-function getLocalCoffee() {
+function initialSetup() {
 	data =   {  client_id:'OXNW4UZLYBR2O0E521ASAMCY10TVAJ35CR0F1ABUDCIH1IPN',
 			client_secret:'FPYUNFVQ5KTJCMXGPGN0H4IUINNOD2KXU4R3FPXVZF52NOPI',
 			v:'20180323',
@@ -40,7 +40,40 @@ function getLocalCoffee() {
 				placeData.foursquare_id = venueData[x]['id']
 				placesData.push(placeData);
 		}
-		ko.applyBindings(new appViewModel);
+		appInstance = new appViewModel;
+		ko.applyBindings(appInstance);
+		initMap(latlng, placesData);
+	})
+}
+function checkform(data) {
+	console.log(appInstance.food);
+	console.log(appInstance.city);
+}
+function getLocations() {
+	data =   {  client_id:'OXNW4UZLYBR2O0E521ASAMCY10TVAJ35CR0F1ABUDCIH1IPN',
+			client_secret:'FPYUNFVQ5KTJCMXGPGN0H4IUINNOD2KXU4R3FPXVZF52NOPI',
+			v:'20180323',
+			near: appInstance.city, 
+			intent:'browse',
+			radius:2000,
+			query:appInstance.food,
+			limit:5}
+	$.getJSON('https://api.foursquare.com/v2/venues/search', data, function(response){
+	console.log(response);
+	latlng = response['response']['geocode']['feature']['geometry']['center'];
+	venueData = response['response']['venues'];
+		console.log(venueData[0]['location'])
+		placesData = [];
+		for (x in venueData){
+				placeData = {};
+				placeData.lat = venueData[x]['location']['lat'];
+				placeData.lng = venueData[x]['location']['lng'];
+				console.log(placeData.lat);
+				placeData.name = venueData[x]['name']
+				placeData.foursquare_id = venueData[x]['id']
+				placesData.push(placeData);
+		}
+		appInstance.recast();
 		initMap(latlng, placesData);
 	})
 }
@@ -69,9 +102,17 @@ function windowViewModel(id) {
 }
 function appViewModel() {
 	var self = this;
+	this.food= "";
+	this.city = "";
 	this.places = ko.observableArray([]);
 	for (place in placesData) {
-		self.places().push(new Location(placesData[place]));
+		self.places.push(new Location(placesData[place]));
+	}
+	this.recast = function() {
+			this.places([]);
+		for (place in placesData) {
+			self.places.push(new Location(placesData[place]));
+		}
 	}
 }
 getVenueData('49eeaf08f964a52078681fe3');
