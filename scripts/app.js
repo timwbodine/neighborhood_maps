@@ -23,7 +23,6 @@ function getVenueData(venueID) {
 	})
 }
 function getLocations(viewExists) {
-	console.log("INITIAL SETUP STATUS = " + viewExists)
 	data =   {  client_id:'OXNW4UZLYBR2O0E521ASAMCY10TVAJ35CR0F1ABUDCIH1IPN',
 			client_secret:'FPYUNFVQ5KTJCMXGPGN0H4IUINNOD2KXU4R3FPXVZF52NOPI',
 			v:'20180323',
@@ -33,19 +32,16 @@ function getLocations(viewExists) {
 			query: viewExists ? appInstance.food : initialFood,
 			limit:10}
 	$.getJSON('https://api.foursquare.com/v2/venues/search', data, function(response){
-	console.log(response);
 		infowindows = [];
 		markers = [];
 	latlng = response['response']['geocode']['feature']['geometry']['center'];
 	venueData = response['response']['venues'];
-		console.log(venueData[0])
 		placesData = [];
 		for (x in venueData){
 				placeData = {};
 				placeData.verified = venueData[x]['verified']
 				placeData.lat = venueData[x]['location']['lat'];
 				placeData.lng = venueData[x]['location']['lng'];
-				console.log(placeData.lat);
 				placeData.name = venueData[x]['name']
 				placeData.foursquare_id = venueData[x]['id']
 				placeData.id = x;
@@ -99,7 +95,6 @@ function appViewModel() {
 		}
 	};
 	openWindow = function(isInitial) {
-		console.log(isInitial);
 		index = this['id']();
 		google.maps.event.trigger(markers[index], 'click');
 
