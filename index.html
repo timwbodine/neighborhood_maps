@@ -12,12 +12,12 @@
 		<div>
 				<div>
 					<ul data-bind="foreach:places">
-						<li data-bind="text:name"></li>		
+						<li data-bind="click: openWindow.bind($data, true), text:name"></li>		
 					</ul>
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"> </script>
 			</div>
 			<div>
-				<form data-bind="submit: getLocations">
+				<form data-bind="submit: getLocations.bind($data, true)">
 					Looking for:<br>
 					<input data-bind="value: food" type="text" name="food" value="coffee"><br>
 					in:<br>
@@ -28,6 +28,6 @@
 		</div>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="scripts/app.js"> </script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzLjJ9dNYvfAmS1PNISYyrwTq1tQSgRs0&callback=initialSetup" async defer> </script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzLjJ9dNYvfAmS1PNISYyrwTq1tQSgRs0&callback=getLocations" async defer> </script>
 	</body>
 </html>
