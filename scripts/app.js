@@ -53,7 +53,7 @@ function getLocations(viewExists) {
 			initMap(latlng, placesData);
 		} else {
 			appInstance.recast();
-			initMap(latlng, placesData);
+			initMap(latlng, appInstance.placesData());
 		}
 	})
 }
@@ -82,10 +82,9 @@ function windowViewModel(id) {
 }
 function appViewModel() {
 	var self = this;
-	this.food= "coffee";
-	this.city = "portland";
+	this.food= "";
+	this.city = "";
 	self.verified = ko.observable(false); 
-	this.places = ko.observableArray([]);
 	this.placesData = ko.computed(function() {
 		console.log(self.verified());
 		if (self.verified() == false) {
@@ -100,15 +99,19 @@ function appViewModel() {
 			;
 		}
 	})
-	for (place in placesData) {
-		self.places.push(new Location(this.placesData()[place]));
-	}
-	this.recast = function() {
-		console.log(this.placesData());
-			this.places([]);
-		for (place in this.placesData()) {
-			self.places.push(new Location(this.placesData()[place]));
+	
+	this.places = ko.computed(function() {
+		var placesArray = [];
+		console.log(self.placesData());
+		for (place in self.placesData()) {
+			placesArray.push(new Location(self.placesData()[place]));
 		}
+		return placesArray;
+	})
+	this.recast = function() {
+		console.log(placesData);
+		console.log(self.placesData());
+		console.log("made it here.");
 	};
 	openWindow = function(isInitial) {
 		index = this['id']();
