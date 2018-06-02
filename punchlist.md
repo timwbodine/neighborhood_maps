@@ -5,7 +5,7 @@ knockout data models
 //2. integrate google map which creates markers using ko data model
 //3. Add windows to markers, which when clicked, asynchronously fetch foursquare
 checkin/review data or whatever.
-4.  adapt this so user can search for whichever city
+// 4.  adapt this so user can search for whichever city
 
 NEXT STEP
 //macro 1.
@@ -21,3 +21,13 @@ macro 3.
 //2. populate windows with data fetched asynchronously from foursquare using
 foursquare ID
 // 3. Figure out how map data should link with knockout data if at all.
+
+Wrap up punchlist!
+
+1.  Fix filter so it isn't broken (make placesData observable array should
+mostly fix it)
+2.  Add style and panache to google maps windows. Make map view mobile
+responsive.
+3.  Add style and panache to list view.  Make list view mobile responsive.
+4.  Handle errors gracefully.
+
