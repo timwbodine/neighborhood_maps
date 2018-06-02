@@ -82,16 +82,32 @@ function windowViewModel(id) {
 }
 function appViewModel() {
 	var self = this;
-	this.food= "";
-	this.city = "";
+	this.food= "coffee";
+	this.city = "portland";
+	self.verified = ko.observable(false); 
 	this.places = ko.observableArray([]);
+	this.placesData = ko.computed(function() {
+		console.log(self.verified());
+		if (self.verified() == false) {
+			console.log(placesData);
+			return placesData 
+		} else {
+			
+			var filtered = placesData.filter(place => place.verified);
+			console.log(filtered);
+			return filtered;
+
+			;
+		}
+	})
 	for (place in placesData) {
-		self.places.push(new Location(placesData[place]));
+		self.places.push(new Location(this.placesData()[place]));
 	}
 	this.recast = function() {
+		console.log(this.placesData());
 			this.places([]);
-		for (place in placesData) {
-			self.places.push(new Location(placesData[place]));
+		for (place in this.placesData()) {
+			self.places.push(new Location(this.placesData()[place]));
 		}
 	};
 	openWindow = function(isInitial) {
@@ -108,6 +124,7 @@ function initMap(latlng, placesData) {
 		zoom: 12 
 	});
 	for (place in placesData){(function(place){
+
 		var marker = new google.maps.Marker({position: {lat: placesData[place]['lat'], lng: placesData[place]['lng']}, map:map});
 		var id = placesData[place]['foursquare_id'];
 		var infowindow = new google.maps.InfoWindow({

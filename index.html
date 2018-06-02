@@ -19,11 +19,14 @@
 			<div>
 				<form data-bind="submit: getLocations.bind($data, true)">
 					Looking for:<br>
-					<input data-bind="value: food" type="text" name="food" value="coffee"><br>
+					<input type = "text" data-bind="textInput: food"><br>
 					in:<br>
-					<input data-bind="value: city" type="text" name="city" value="portland">
+					<input type = "text" data-bind="textInput: city">
 					<button type="submit">Transport</button>
 				</form>
+				<form>
+					<input type="checkbox" data-bind= "checked: verified"> 
+				</form>	
 			</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
