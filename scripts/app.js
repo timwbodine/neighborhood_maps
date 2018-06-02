@@ -10,8 +10,9 @@ placesData = [];
 locations = [];
 var infowindows = [];
 var markers = [];
-initialCity = "Portland";
-initialFood = "Coffee";
+var initialCity = "Portland";
+var initialFood = "Coffee";
+var latlng = "";
 function getVenueData(venueID) {
 	data = {
 		client_id:'OXNW4UZLYBR2O0E521ASAMCY10TVAJ35CR0F1ABUDCIH1IPN',
@@ -34,7 +35,7 @@ function getLocations(viewExists) {
 	$.getJSON('https://api.foursquare.com/v2/venues/search', data, function(response){
 		infowindows = [];
 		markers = [];
-	latlng = response['response']['geocode']['feature']['geometry']['center'];
+	  latlng = response['response']['geocode']['feature']['geometry']['center'];
 	venueData = response['response']['venues'];
 		placesData = [];
 		for (x in venueData){
@@ -53,6 +54,8 @@ function getLocations(viewExists) {
 			initMap(latlng, placesData);
 		} else {
 			appInstance.recast();
+			appInstance.verified(!appInstance.verified());
+			appInstance.verified(!appInstance.verified());
 			initMap(latlng, appInstance.placesData());
 		}
 	})
@@ -82,10 +85,10 @@ function windowViewModel(id) {
 }
 function appViewModel() {
 	var self = this;
-	this.food= "";
-	this.city = "";
+	self.food= "";
+	self.city = "";
 	self.verified = ko.observable(false); 
-	this.placesData = ko.computed(function() {
+	self.placesData = ko.computed(function() {
 		console.log(self.verified());
 		if (self.verified() == false) {
 			console.log(placesData);
@@ -108,6 +111,12 @@ function appViewModel() {
 		}
 		return placesArray;
 	})
+	self.checkUncheck = ko.computed(function() {
+		if (self.verified() != null) {
+			initMap(latlng, self.placesData());
+		}
+	})
+	
 	this.recast = function() {
 		console.log(placesData);
 		console.log(self.placesData());
