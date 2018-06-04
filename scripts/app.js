@@ -56,7 +56,7 @@ function getLocations(viewExists) {
 			appInstance.recast();
 			appInstance.verified(!appInstance.verified());
 			appInstance.verified(!appInstance.verified());
-			initMap(latlng, appInstance.placesData());
+			initMap(latlng, placesData);
 		}
 	})
 }
@@ -88,6 +88,7 @@ function appViewModel() {
 	self.food= "";
 	self.city = "";
 	self.verified = ko.observable(false); 
+	self.test = ko.observable(false);
 	self.placesData = ko.computed(function() {
 		console.log(self.verified());
 		if (self.verified() == false) {
@@ -112,12 +113,22 @@ function appViewModel() {
 		return placesArray;
 	})
 	self.checkUncheck = ko.computed(function() {
-		if (self.verified() != null) {
-			initMap(latlng, self.placesData());
+		if (self.verified()) {
+			for (x in placesData) {
+				console.log(placesData[x]['verified']);
+				if (placesData[x]['verified'] == false) {
+					google.maps.event.trigger(markers[placesData[x]['id']], 'drop');
+					console.log(x);
+				}
+			} 
+		} else {
+			for (x in placesData) {
+					google.maps.event.trigger(markers[placesData[x]['id']], 'undrop');
+			}
 		}
 	})
 	
-	this.recast = function() {
+	self.recast = function() {
 		console.log(placesData);
 		console.log(self.placesData());
 		console.log("made it here.");
@@ -144,6 +155,13 @@ function initMap(latlng, placesData) {
 '<h1 data-bind="text:namestring"></h1> <h3 data-bind="text:addressArray"></h3> <a data-bind="attr: {href: reviewsurl}">Reviews</a> <img data-bind="attr: {src: imgurl}"</img>'
   	});
 		infowindows.push(infowindow);
+		marker.addListener('drop', function() {
+			marker.setVisible(false);
+		});
+
+		marker.addListener('undrop', function() {
+			marker.setVisible(true);
+		});
 	  marker.addListener('click', function() {
 			for (item in infowindows) {
 				infowindows[item].close()
@@ -154,5 +172,9 @@ function initMap(latlng, placesData) {
 		});	
 		markers.push(marker);
 	})(place);
+		if (placesData[place].verified == false && appInstance.verified()) {
+
+					google.maps.event.trigger(markers[placesData[place]['id']], 'drop');
+		}
 	};
 }
