@@ -82,11 +82,29 @@ function windowViewModel(id) {
 function appViewModel() {
 	var self = this;
 
-	self.filterByVerified = function(filtertext) {
-		return placesData.filter(place => place.verified)
+	self.filterByVerified = function(placesData) {
+		filtered = [];
+		for (x in placesData) {
+			if (placesData[x]['verified']) {
+					filtered.push(placesData[x])
+					google.maps.event.trigger(markers[placesData[x]['id']], 'undrop');
+			} else {
+				google.maps.event.trigger(markers[placesData[x]['id']], 'drop');
+			}
+		}
+		return filtered;
 	}
 	self.filterByText = function(placesData, filtertext) {
-		return placesData.filter(place => place.name.includes(filtertext));
+		filtered = [];
+		for (x in placesData) {
+			if (placesData[x]['name'].includes(filtertext)) {
+					filtered.push(placesData[x])
+					google.maps.event.trigger(markers[placesData[x]['id']], 'undrop');
+			} else {
+				google.maps.event.trigger(markers[placesData[x]['id']], 'drop');
+			}
+		}
+		return filtered;
 	}
 	self.food= "";
 	self.city = "";
@@ -97,7 +115,7 @@ function appViewModel() {
 		if (self.verified() == false) {
 				return self.filterByText(placesData, self.filtertext()); 
 		} else {
-			return self.filterByText(self.filterByVerified(placesData, self.filtertext())); 
+			return self.filterByText(self.filterByVerified(placesData), self.filtertext()); 
 		}
 
 	});
@@ -109,19 +127,6 @@ function appViewModel() {
 			placesArray.push(new Location(self.placesData()[place]));
 		}
 		return placesArray;
-	})
-	self.checkUncheck = ko.computed(function() {
-		if (self.verified()) {
-			for (x in placesData) {
-				if (placesData[x]['verified'] == false) {
-					google.maps.event.trigger(markers[placesData[x]['id']], 'drop');
-				}
-			} 
-		} else {
-			for (x in placesData) {
-					google.maps.event.trigger(markers[placesData[x]['id']], 'undrop');
-			}
-		}
 	})
 	
 	openWindow = function(isInitial) {
