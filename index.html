@@ -7,28 +7,35 @@
 		<title></title>
 	</head>
 	<body>
-		<div id="map">
+		
+	<div class="wrapper">
+		<div id="map" class="map">
 		</div>
-		<div>
+		<div class="list">
 				<div>
 					<ul data-bind="foreach:places">
 						<li data-bind="click: openWindow.bind($data, true), text:name"></li>		
 					</ul>
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"> </script>
 			</div>
-			<div>
+		</div>
+		<div>
+			<div class="form" style="margin-left: 40px;">
 				<form data-bind="submit: getLocations.bind($data, true)">
-					Looking for:<br>
+					Looking for:
 					<input type = "text" data-bind="textInput: food"><br>
-					in:<br>
+					in city:
 					<input type = "text" data-bind="textInput: city">
-					<button type="submit">Transport</button>
+					<br>
+					<button type="submit">Search</button>
 				</form>
 				<form>
-					<input type="checkbox" data-bind= "checked: verified"> 
-					<input type="text" data-bind="textInput: filtertext">
+					<p>Verified only<input type="checkbox" data-bind= "checked: verified"> </p>
+					<p>Filter By: <input type="text" data-bind="textInput: filtertext"></p>
 				</form>	
 			</div>
+	</div>
+	
 		</div>
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 		<script src="scripts/app.js"> </script>

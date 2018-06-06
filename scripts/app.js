@@ -19,9 +19,9 @@ function getLocations(viewExists) {
 			v:'20180323',
 			near: viewExists ? appInstance.city : initialCity, 
 			intent:'browse',
-			radius:5000,
+			radius:10000,
 			query: viewExists ? appInstance.food : initialFood,
-			limit:10}
+			limit:25}
 	$.getJSON('https://api.foursquare.com/v2/venues/search', data, function(response){
 		infowindows = [];
 		markers = [];
@@ -95,9 +95,10 @@ function appViewModel() {
 		return filtered;
 	}
 	self.filterByText = function(placesData, filtertext) {
-		filtered = [];
+			filtered = [];
+			filtertext = filtertext.toLowerCase();
 		for (x in placesData) {
-			if (placesData[x]['name'].includes(filtertext)) {
+			if (placesData[x]['name'].toLowerCase().includes(filtertext)) {
 					filtered.push(placesData[x])
 					google.maps.event.trigger(markers[placesData[x]['id']], 'undrop');
 			} else {
@@ -147,7 +148,7 @@ function initMap(latlng, placesData) {
 		var id = placesData[place]['foursquare_id'];
 		var infowindow = new google.maps.InfoWindow({
 	    content: 
-'<h1 data-bind="text:namestring"></h1> <ul style="list-style:none; margin:0; padding:0;"data-bind="foreach:addressArray"> <li style="margin:0;padding:0;"> <h3 data-bind="text:$data"></h3> </li>	</ul> <a data-bind="attr: {href: reviewsurl}">Reviews</a> <img data-bind="attr: {src: imgurl}"</img>'
+'<h1 data-bind="text:namestring"></h1> <ul style="list-style:none; margin:0; padding:0;"data-bind="foreach:addressArray"> <li style="margin:0;padding:0;"> <h3 data-bind="text:$data"></h3> </li>	</ul> <a data-bind="attr: {href: reviewsurl}">Reviews</a> <img style="height:100px;" data-bind="attr: {src: imgurl}"</img>'
   	});
 		infowindows.push(infowindow);
 		marker.addListener('drop', function() {
@@ -166,7 +167,8 @@ function initMap(latlng, placesData) {
 				infowindows[item].close()
 			}		
 			infowindow.open(map, marker);
-		  map.setCenter(marker.getPosition());
+
+		map.setCenter(marker.getPosition());
 			try{ko.applyBindings(new windowViewModel(id), $(".gm-style-iw")[0]);
 		} catch {console.log("oops")}
 	});	
