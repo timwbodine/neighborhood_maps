@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="stylesheet" href="styles/style.css">
-		<title></title>
-	</head>
-	<body>
-		
-	<div class="wrapper">
-		<div id="map" class="map">
-		</div>
-		<div class="list">
-				<div>
-					<ul data-bind="foreach:places">
-						<li data-bind="click: openWindow.bind($data, true), text:name"></li>		
-					</ul>
-					<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"> </script>
-			</div>
-		</div>
-		<div>
-			<div class="form" style="margin-left: 40px;">
-				<form data-bind="submit: getLocations.bind($data, true)">
-					Looking for:
-					<input type = "text" data-bind="textInput: food"><br>
-					in city:
-					<input type = "text" data-bind="textInput: city">
-					<br>
-					<button type="submit">Search</button>
-				</form>
-				<form>
-					<p>Verified only<input type="checkbox" data-bind= "checked: verified"> </p>
-					<p>Filter By: <input type="text" data-bind="textInput: filtertext"></p>
-				</form>	
-			</div>
-	</div>
-	
-		</div>
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		<script src="scripts/app.js"> </script>
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzLjJ9dNYvfAmS1PNISYyrwTq1tQSgRs0&callback=getLocations" async defer> </script>
-	</body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <title></title>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div id="map" class="map">
+        </div>
+        <div class="list">
+            <h2 style="margin-left:40px;">Find Stuff!</h2>
+            <div>
+                <ul class="list-group" data-bind="foreach:places">
+                    <li class="list-item" data-bind="click: openWindow.bind($data, true), text:name"></li>
+                </ul>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js">
+                </script>
+            </div>
+        </div>
+        <div>
+            <div class="form" style="margin-left: 40px;">
+                <form data-bind="submit: getLocations.bind($data, true)">
+                    Looking for:
+                    <input type="text" data-bind="textInput: food"><br> in city:
+                    <input type="text" data-bind="textInput: city">
+                    <br>
+                    <button type="submit">Search</button>
+                </form>
+                <form>
+                    <p>Verified only<input type="checkbox" data-bind="checked: verified"> </p>
+                    <p>Filter By: <input type="text" data-bind="textInput: filtertext"></p>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="scripts/app.js">
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzLjJ9dNYvfAmS1PNISYyrwTq1tQSgRs0&callback=getLocations" async defer>
+    </script>
+</body>
+
 </html>
